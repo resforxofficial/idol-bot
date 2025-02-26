@@ -1,7 +1,7 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
-import fs from 'fs';
-const text = fs.readFileSync("./ik.json", "utf-8");
+import dotenv from 'dotenv';
 
+dotenv.config();
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -16,9 +16,12 @@ client.once(Events.ClientReady, rc => {
 });
 
 client.on("messageCreate", (msg) => {
-    if (msg.content === "ping") {
-        return msg.reply("pong");
+    if (msg.content.startsWith("/정보")) {
+        const args = msg.content.split(" ");
+        const nameOfgroup = args[1];
+
+        return msg.reply();
     }
 });
 
-client.login(text[0]);
+client.login(process.env.API_KEY);
